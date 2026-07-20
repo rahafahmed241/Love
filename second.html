@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ذكرى حبنا الجميلة وثيقة سرية</title>
+    <!-- خطوط جوجل الاحترافية -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #ff7597;
+            --secondary-color: #8a2be2;
+            --bg-gradient: linear-gradient(135deg, #0f0c20 0%, #15102a 50%, #06040a 100%);
+            --glass-bg: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-color: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+    background: var(--bg-gradient);
+    color: var(--text-color);
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column; /* 👈 السطر السحري الجديد */
+    align-items: center;
+    margin: 0;
+}
+
+
+        /* شاشة القفل والباسورد */
+        #lock-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f0c20 0%, #06040a 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: all 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .lock-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            padding: 40px 30px;
+            border-radius: 24px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .lock-card h2 {
+            font-family: 'Reem Kufi', sans-serif;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .lock-card p {
+            font-size: 0.95rem;
+            color: #ccc;
+            margin-bottom: 25px;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 1px solid var(--glass-border);
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            text-align: center;
+            font-size: 1.2rem;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .password-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px rgba(255, 117, 151, 0.3);
+        }
+
+        .unlock-btn {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 10px 20px rgba(138, 43, 226, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .unlock-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(255, 117, 151, 0.4);
+        }
+
+        .error-message {
+            color: #ff4a4a;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* المحتوى الرئيسي */
+        #main-content {
+            width: 100%;
+            max-width: 700px;
+            padding: 20px;
+            display: none; /* مخفي في البداية */
+            opacity: 0;
+            transition: opacity 1s ease-in;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            margin-top: 20px;
+        }
+
+        header h1 {
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #fff, var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        /* العداد الذكي */
+        .counter-section {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .counter-title {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .counter-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .counter-box {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px 5px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .counter-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            display: block;
+        }
+
+        .counter-label {
+            font-size: 0.75rem;
+            color: #aaa;
+        }
+
+        /* ألبوم الصور والذكريات */
+        .gallery-section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            border-right: 4px solid var(--primary-color);
+            padding-right: 10px;
+        }
+
+        .memory-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .memory-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .memory-img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .memory-info {
+            padding: 20px;
+        }
+
+        .memory-date {
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .memory-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #eee;
+        }
+
+        /* رسالة الحب */
+        .letter-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed rgba(255, 117, 151, 0.3);
+            border-radius: 24px;
+            padding: 30px;
+            text-align: right;
+            margin-bottom: 60px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .letter-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #f0f0f0;
+            white-space: pre-line;
+        }
+
+        /* مشغل الموسيقى العائم */
+        #music-player {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(21, 16, 42, 0.85);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            padding: 10px 15px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 999;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            direction: ltr; /* لجعل زر التحكم والأيقونات متناسقة عالمياً */
+        }
+
+        .music-icon {
+            width: 30px;
+            height: 30px;
+            background: var(--primary-color);
+            border-radius: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: rotate 3s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .music-icon.playing {
+            animation-play-state: running;
+        }
+
+        .player-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            font-family: 'Cairo', sans-serif;
+            padding: 0 5px;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(36deg); }
+        }
+
+        @media (max-width: 480px) {
+            header h1 { font-size: 2rem; }
+            .counter-number { font-size: 1.4rem; }
+            .memory-img { height: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شاشة قفل الباسورد -->
+    <div id="lock-screen">
+        <div class="lock-card">
+            <h2>مساحة سرية خاصة بنا ❤️</h2>
+            <p>من فضلك أدخل كلمة السر السحرية لرؤية مفاجأتك</p>
+            <input type="text" id="passwordField" class="password-input" placeholder="...." onfocus="document.getElementById('bgMusic').load();">
+            <button class="unlock-btn" onclick="checkPassword()"> الدخول الي عالمنا ✨</button>
+            <div id="errorMsg" class="error-message">الكلمة السرية خاطئة يا روحي! حاول مجدداً 🥺</div>
+        </div>
+          <!-- إمضاء قاع شاشة القفل -->
+    <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 100%; text-align: center; z-index: 999;">
+        <footer style="display: inline-block; font-size: 12px; color: #aaaaaa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; direction: ltr;">
+            Made with 
+            <span style="color: #ff4d6d; font-weight: bold; margin: 0 3px;">Rahaf</span> 
+            by 
+            <a href="https://instagram.com/hopps.era" target="_blank" style="color: #9d4edd; text-decoration: none; font-weight: bold; margin-left: 3px; border-bottom: 1px dashed #9d4edd; padding-bottom: 2px;">hopps.era</a>
+        </footer>
+    </div>
+    </div>
+
+    <!-- المحتوى الرئيسي للموقع -->
+    <div id="main-content">
+        <header>
+            <h1>كل سنة وأنت طيب يا حبيبي وروحي وعالمي ❤️</h1>
+            <p> هنا متسجله كل لحظه ، كل يوم ، و كل ذكري دافيه عشناها مع بعض و هنعيش اكتر منها في اللي جاي </p>
+        </header>
+
+        <!-- عداد الحب -->
+        <div class="counter-section">
+            <div class="counter-title">الوقت اللي عشناه مع بعض من أول يوم عرفتك فيه (1/10/2024): بداية حكايتنا </div>
+            <div class="counter-container">
+                <div class="counter-box">
+                    <span id="days" class="counter-number">00</span>
+                    <span class="counter-label">أيام</span>
+                </div>
+                <div class="counter-box">
+                    <span id="hours" class="counter-number">00</span>
+                    <span class="counter-label">ساعات</span>
+                </div>
+                <div class="counter-box">
+                    <span id="minutes" class="counter-number">00</span>
+                    <span class="counter-label">دقائق</span>
+                </div>
+                <div class="counter-box">
+                    <span id="seconds" class="counter-number">00</span>
+                    <span class="counter-label">ثواني</span>
+                </div>
+            </div>
+             <!-- الجملة الرومانسية تحت العداد -->
+            <p style="margin-top: 20px; font-size: 1.1rem; color: #fff; font-weight: bold; text-shadow: 0 0 10px rgba(255, 117, 151, 0.5);">
+                وفي كل ثانية بتمر.. غلاوتك وحبك في قلبي بتزيد 💖
+            </p>
+        </div>
+
+         <!-- ألبوم الذكريات المطور بالظبط مثل الصورة -->
+        <div class="gallery-section">
+            <h2 class="section-title">ألبوم حكايتنا 📸</h2>
+            <p style="font-size: 0.95rem; color: #ccc; margin-top: -10px; margin-bottom: 25px; padding-right: 15px;">
+                أجمل لحظاتنا والذكريات اللي محفورة في قلبي 🤍✨
+            </p>
+
+            <!-- الكارت الأول -->
+            <div class="memory-card" style="background: #150d2a; border-radius: 24px; border: 1px solid rgba(255,255,255,0.08); overflow: hidden; margin-bottom: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.4);">
+                <!-- منطقة الصورة مع الكبسولة الوردية -->
+                <div style="position: relative; width: 100%; height: 280px; background: #0f0a20;">
+                    <img src="image1.jpg" alt="الذكرى الأولى" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                    <!-- الكبسولة الوردية للذكرى -->
+                    <span style="position: absolute; bottom: 15px; right: 15px; background: linear-gradient(45deg, #d81b60, #ff4081); color: white; padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: bold; box-shadow: 0 4px 10px rgba(216, 27, 96, 0.4);">
+                        الذكرى الأولى
+                    </span>
+                </div>
+                <!-- منطقة الكلام بخلفية منفصلة متباينة -->
+                <div style="padding: 25px 20px; background: rgba(15, 10, 32, 0.6); border-top: 1px solid rgba(255,255,255,0.03);">
+                    <h3 style="font-family: 'Reem Kufi', sans-serif; font-size: 1.4rem; color: #fff; margin-bottom: 12px; font-weight: 700;">
+                        بداية الكلام والشرارة الأولى ✨
+                    </h3>
+                    <p style="font-size: 0.95rem; line-height: 1.7; color: #b3a9c9; font-weight: 300;">
+                        اليوم ده مستحيل أنساه، كان أول مرة نحس إن قلوبنا اتلاقت وإن كلامنا مش مجرد صدفة عادية لكنه ترتيب قدر تحفه لقلبي وقلبك.
+                    </p>
+                </div>
+            </div>
+
+            <!-- الكارت الثاني -->
+            <div class="memory-card" style="background: #150d2a; border-radius: 24px; border: 1px solid rgba(255,255,255,0.08); overflow: hidden; margin-bottom: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.4);">
+                <div style="position: relative; width: 100%; height: 280px; background: #0f0a20;">
+                    <img src="image2.jpg" alt="الذكرى الثانية" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                    <span style="position: absolute; bottom: 15px; right: 15px; background: linear-gradient(45deg, #d81b60, #ff4081); color: white; padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: bold; box-shadow: 0 4px 10px rgba(216, 27, 96, 0.4);">
+                        أيامنا سوا
+                    </span>
+                </div>
+                <div style="padding: 25px 20px; background: rgba(15, 10, 32, 0.6); border-top: 1px solid rgba(255,255,255,0.03);">
+                    <h3 style="font-family: 'Reem Kufi', sans-serif; font-size: 1.4rem; color: #fff; margin-bottom: 12px; font-weight: 700;">
+                       ضحكتك اللي بتنور قلبي 💖
+                    </h3>
+                    <p style="font-size: 0.95rem; line-height: 1.7; color: #b3a9c9; font-weight: 300;">
+                      ضحكتك في اليوم ده كانت كافيه تخليني اسعد شخص في الدنيا . كل تفصيله و صوره بتفكرني بمدي نقي الايام و جمالها بوجودك جمبي.
+                    </p>
+                </div>
+            </div>
+
+            <!-- الكارت الثالث -->
+            <div class="memory-card" style="background: #150d2a; border-radius: 24px; border: 1px solid rgba(255,255,255,0.08); overflow: hidden; margin-bottom: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.4);">
+                <div style="position: relative; width: 100%; height: 280px; background: #0f0a20;">
+                    <img src="image3.jpg" alt="الذكرى الثالثة" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                    <span style="position: absolute; bottom: 15px; right: 15px; background: linear-gradient(45deg, #d81b60, #ff4081); color: white; padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: bold; box-shadow: 0 4px 10px rgba(216, 27, 96, 0.4);">
+                        وعد العمر
+                    </span>
+                </div>
+                <div style="padding: 25px 20px; background: rgba(15, 10, 32, 0.6); border-top: 1px solid rgba(255,255,255,0.03);">
+                    <h3 style="font-family: 'Reem Kufi', sans-serif; font-size: 1.4rem; color: #fff; margin-bottom: 12px; font-weight: 700;">
+                         وعد الايام و العهد الابدي♾️
+                    </h3>
+                    <p style="font-size: 0.95rem; line-height: 1.7; color: #b3a9c9; font-weight: 300;">
+                        كل خطوه بنمشيها سوا بتقربنا للحلم الكبير اللي بنتمناه و بندعي ربنا بيه في كل سجده . ربنا يحفظك ليا يا كل دنيتي و حاضري القادم.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- رسالة الحب الكبيرة -->
+        <div class="letter-section">
+            <h2 class="section-title" style="border:none; padding:0; margin-bottom:15px;">جواب حب من جوا قلبي ✉️ </h2>
+            <p class="letter-text">
+                "يا أغلى وأجمل عطايا ربي ليا..."
+
+مش مصدقة إن الوقت بيمر بجماله ده وإحنا سوا. من يوم **1/10/2024** والدنيا بقى ليها طعم تاني وشكل تاني خالص في عيوني. وجودك في حياتي بيخليني قادرة أعدي أي حاجة صعبة بابتسامة وهدوء نفسي غريب.
+
+حبك مش مجرد مشاعر عابرة، ده وطن وأمان وسند بستخبى فيه من الدنيا كلها. بوعدك أفضل جنبك ومعاك في كل لحظة، في فرحنا، ضحكنا، وحتى زعلنا البسيط اللي بنعديه بحضن دافي وكلمة طيبة.
+
+"بحبك وهفضل أحبك لآخر العمر والدنيا..." ❤️
+            </p>
+        </div>
+         <!-- الفوتر الجديد المرفوع عن أيقونة الصوت -->
+<footer style="text-align: center; padding: 20px 0 80px 0; font-size: 0.85rem; color: rgba(255, 255, 255, 0.6); font-weight: 300; letter-spacing: 0.5px; clear: both;">
+    صُنع بحب أبدي وخالص لشخصي المفضل 💜✨ || 2026
+</footer>
+
+    </div>
+
+    <!-- مشغل الموسيقى العائم -->
+    <div id="music-player" style="display: none;">
+        <div id="musicIcon" class="music-icon">🎵</div>
+        <button id="playBtn" class="player-btn" onclick="toggleMusic()">Mute 🔇</button>
+        <audio id="bgMusic" src="music2.mp3?v=2
+        
+        " loop preload="auto"></audio>
+    </div>
+
+    <script>
+          // دالة التحقق من الباسورد المطورة لتشغيل الموسيقى فوراً بدون تأخير
+        function checkPassword() {
+            const passwordInput = document.getElementById('passwordField').value;
+            const errorMsg = document.getElementById('errorMsg');
+            const lockScreen = document.getElementById('lock-screen');
+            const mainContent = document.getElementById('main-content');
+            const musicPlayer = document.getElementById('music-player');
+            const audio = document.getElementById('bgMusic');
+            const musicIcon = document.getElementById('musicIcon');
+
+            // الباسورد الافتراضي
+            if (passwordInput === '1010') {
+                // [تعديل سحري 1] تشغيل الأغنية فوراً في أول الملي ثانية من الضغطة بدون انتظار الأنيميشن
+                musicPlayer.style.display = 'flex';
+                audio.play().then(() => {
+                    musicIcon.classList.add('playing');
+                    document.getElementById('playBtn').innerText = 'Pause ⏸️';
+                }).catch(err => {
+                    console.log("الرجاء تشغيل الموسيقى يدوياً بالزر");
+                });
+
+                // إخفاء شاشة القفل وعرض المحتوى
+                lockScreen.style.transform = 'translateY(-100%)';
+                setTimeout(() => {
+                    lockScreen.style.display = 'none';
+                    mainContent.style.display = 'block';
+                    setTimeout(() => { mainContent.style.opacity = '1'; }, 50);
+                }, 800);
+
+                // بدء تشغيل العداد الذكي
+                startLiveCounter();
+            } else {
+                errorMsg.style.display = 'block';
+                document.getElementById('passwordField').value = '';
+            }
+        }
+
+
+        // دالة كتم وتشغيل الموسيقى
+        function toggleMusic() {
+            const audio = document.getElementById('bgMusic');
+            const playBtn = document.getElementById('playBtn');
+            const musicIcon = document.getElementById('musicIcon');
+
+            if (audio.paused) {
+                audio.play();
+                playBtn.innerText = 'Pause ⏸️';
+                musicIcon.classList.add('playing');
+            } else {
+                audio.pause();
+                playBtn.innerText = 'Play ▶️';
+                musicIcon.classList.remove('playing');
+            }
+        }
+
+        // دالة العداد الحي من تاريخ 1/10/2024
+        function startLiveCounter() {
+            // تاريخ البداية (1 أكتوبر 2024)
+            const startDate = new Date('2024-10-01T00:00:00');
+
+            setInterval(() => {
+                const now = new Date();
+                const difference = now - startDate;
+
+                // حساب الأيام والساعات والدقائق والثواني بالمعادلات الرياضية
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                // تحديث الأرقام في الواجهة مع إضافة صفر على اليسار إذا كان الرقم أقل من 10
+                document.getElementById('days').innerText = days < 10 ? '0' + days : days;
+                document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+                document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+                document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+            }, 1000);
+        }
+
+        // السماح بالضغط على زر Enter لفتح القفل
+        document.getElementById('passwordField').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+    </script>
+<!-- الإمضاء النهائي المستقر في قاع الصفحة -->
+<div style="margin-top: auto; width: 100%; text-align: center; padding: 30px 0; clear: both;">
+    <footer style="display: inline-block; font-size: 13px; color: #aaaaaa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; direction: ltr;">
+        Made with 
+        <span style="color: #ff4d6d; font-weight: bold; margin: 0 3px;">Rahaf</span> 
+        by 
+        <a href="https://instagram.com/hopps.era" target="_blank" style="color: #9d4edd; text-decoration: none; font-weight: bold; margin-left: 3px; border-bottom: 1px dashed #9d4edd; padding-bottom: 2px;">hopps.era</a>
+    </footer>
+</div>
+
+</body>
+</html>
